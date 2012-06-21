@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{007EF7CC-9806-4945-ABAD-9E86C54570CA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UnitTest</RootNamespace>
+    <AssemblyName>UnitTest</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Should">
+      <HintPath>..\packages\Should.1.1.12.0\lib\Should.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="JobQueueCore\CommandToFail.cs" />
+    <Compile Include="JobQueueCore\JobProgressBehavior.cs" />
+    <Compile Include="JobQueueCore\JobQueueJobStatusBehavior.cs" />
+    <Compile Include="JobQueueCore\JobQueueProgressBehavior.cs" />
+    <Compile Include="JobQueueCore\JobQueueBehavior.cs" />
+    <Compile Include="JobQueueCore\JobBehavior.cs" />
+    <Compile Include="JobQueueCore\JobToFail.cs" />
+    <Compile Include="JobQueueCore\JobToSucceed.cs" />
+    <Compile Include="JobQueueCore\JobToTakeLong.cs" />
+    <Compile Include="JobQueueCore\JobWithFailingCommandBehavior.cs" />
+    <Compile Include="JobQueueCore\LoggerMock.cs" />
+    <Compile Include="JobQueueCore\CommandToTakeLong.cs" />
+    <Compile Include="JobQueueCore\CommandToSucceed.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="SqlJobExtensionTest\SqlJobCommandBehavior.cs" />
+    <Compile Include="SqlJobExtensionTest\SqlJobBehavior.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JobQueueCore\JobQueueCore.csproj">
+      <Project>{1B7BDAD6-DE34-497A-ABC1-D26339F15CE9}</Project>
+      <Name>JobQueueCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SampleSqlJobLibrary\SampleSqlJobLibrary.csproj">
+      <Project>{B98840DF-39DF-4286-AA8E-5789EB6578A0}</Project>
+      <Name>SampleSqlJobLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SqlJobExtension\SqlJobExtension.csproj">
+      <Project>{BDEC487C-159B-4D4B-89AD-A4B06B308728}</Project>
+      <Name>SqlJobExtension</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

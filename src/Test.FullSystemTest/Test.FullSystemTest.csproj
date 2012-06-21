@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5147386B-3C33-4EAF-8EB0-E44116DB0493}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FullSystemTest</RootNamespace>
+    <AssemblyName>FullSystemTest</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Should">
+      <HintPath>..\packages\Should.1.1.12.0\lib\Should.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20505.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="JobQueueManagerTest\WebApiBehavior.cs" />
+    <Compile Include="JobQueueManagerTest\WebApiBehaviorWithFileRepository.cs" />
+    <Compile Include="JobQueueManagerTest\WebApiBehaviorWithSqlRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JobExecutionService\JobExecutionService.csproj">
+      <Project>{4A3B6F62-22DA-4804-BF7E-D6857D5F924B}</Project>
+      <Name>JobExecutionService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JobQueueCore\JobQueueCore.csproj">
+      <Project>{1B7BDAD6-DE34-497A-ABC1-D26339F15CE9}</Project>
+      <Name>JobQueueCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JobQueueManager\JobQueueManager.csproj">
+      <Project>{37D10F99-78D6-4994-8A8F-333C6DC1D1FC}</Project>
+      <Name>JobQueueManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SampleSqlJobLibrary\SampleSqlJobLibrary.csproj">
+      <Project>{B98840DF-39DF-4286-AA8E-5789EB6578A0}</Project>
+      <Name>SampleSqlJobLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SqlJobExtension\SqlJobExtension.csproj">
+      <Project>{BDEC487C-159B-4D4B-89AD-A4B06B308728}</Project>
+      <Name>SqlJobExtension</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

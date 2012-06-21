@@ -1,0 +1,79 @@
+﻿@using JobQueueManager.ViewModels
+@model JobQueueControlViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Queue Manager</title>
+    <script src="@Url.Content("~/Scripts/jquery-1.7.2.min.js")" type="text/javascript"></script>
+</head>
+<body>
+    @using (Html.BeginForm("InvokeControlCommand", "Home"))
+        {
+        
+            <h3>
+                Job Queue Service Control</h3>
+            <input type="radio" name="ControlCommand" id="task_start" value="@ControlCommand.StartService"/>
+            <label for="task_start">Start Job Execution Service</label>
+            <br/>
+
+            <input type="radio" name="ControlCommand" id="task_stop" value="@ControlCommand.StopService"/>
+            <label for="task_stop">Stop Job Execution Service</label>
+            <br />
+
+            <input type="radio" name="ControlCommand" id="task_clear" value="@ControlCommand.ClearJobQueue"/>
+            <label for="task_clear">Clear Job Queue</label>
+            <br />
+
+            <input type="radio" name="ControlCommand" id="enqueue" value="@ControlCommand.EnqueueJob"/>
+            <label for="enqueue">Enqueue - </label>
+            <label for="enqueue">Assembly Name:</label>
+            <input type="text" name="EnqueueJobAssemblyName" value="SampleSqlJobLibrary"/>
+            <label>Class Name:</label>
+            <input type="text" name="EnqueueJobClassName" value="SampleSqlJobLibrary.SqlJobToSucceed"/>
+            <label>Parameters:</label>
+            <input type="text" name="EnqueueJobParameters" value="01/01/2012,bcde"/>
+            <br />
+
+        
+            <h3>
+                Job Queue Status Check</h3>
+
+            <input type="radio" name="ControlCommand" id="get_status" value="@ControlCommand.GetServiceStatus"/>
+            <label for="get_status">Get Job Execution Service Status</label>
+            <br />
+                       
+            <input type="radio" name="ControlCommand" id="get_job_status" value="@ControlCommand.GetJobStatusById"/>
+            <label for="get_job_status">Get Job Status by ID - </label>
+            <label for="get_job_status">Job ID:</label>
+            <input type="text" name="GetJobStatusJobId" />
+            <br />
+                       
+            <br />
+            <br />
+            <label>Web API URL to be called:</label>
+            <a id="refresh-link" href='#'>Refresh</a>
+            <div>
+                <a id="WebApiUrl"></a>
+                <label id="ClickMeLabel"> <= click this to run.</label>
+            </div>
+        @*<input type="submit" value="Run"/>*@
+        }
+
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            $("#ClickMeLabel").hide();
+            $("#refresh-link").click(function (e) {
+                $.post('/Home/GetHttpApiUrl', $("form").serialize(),
+                    function (url) {
+                        $("#WebApiUrl").html(url);
+                        $("#WebApiUrl").attr("href", url);
+                        $("#ClickMeLabel").show();
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
