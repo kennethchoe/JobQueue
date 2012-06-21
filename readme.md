@@ -10,6 +10,7 @@ Immediate goal is to facilitate SQL script for ETL (extract-transform-load) job 
 
 For more, see .\doc\JobQueue Project.pptx.
 
+![JobQueue Process Flow](https://github.com/kennethchoe/JobQueue/raw/master/doc/JobQueue.jpg)
 
 =============================================
 PreRequisites
