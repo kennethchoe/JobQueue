@@ -7,7 +7,7 @@ A extendable job queue system with
 
 Immediate goal is to facilitate SQL script for ETL (extract-transform-load) job so that ETL job can be triggered as soon as its previous step is finished. If there is ETL job running already, new request will be queued and then executed as soon as current ETL job is done.
 
-For more, see .\doc\JobQueue Project.pptx.
+For more, see [.\doc\JobQueue Project.pptx](https://github.com/kennethchoe/JobQueue/raw/master/doc/JobQueue%20Project.pptx).
 
 ![JobQueue Process Flow](https://github.com/kennethchoe/JobQueue/raw/master/doc/JobQueue.jpg)
 
