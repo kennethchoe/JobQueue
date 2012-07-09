@@ -2,6 +2,7 @@
 using JobQueueCore;
 using NUnit.Framework;
 using SampleSqlJobLibrary;
+using SampleSqlJobLibrary.Jobs;
 using Should;
 
 namespace IntegrationTest.RepositoryTest
@@ -30,20 +31,22 @@ namespace IntegrationTest.RepositoryTest
         [Test]
         public void SqlJobWithParametersShouldBePreservedAfterEnqueued()
         {
-            var job = new SqlJobToSucceed(DateTime.Parse("1/1/2012"), "abcd1234");
+            var job = new SqlJobToSucceed();
+            job.SetParameters(DateTime.Parse("1/1/2012"), "abcd", "SyncDBLogs");
             JobQueue.Enqueue(job);
 
             JobQueue.Count.ShouldEqual(1);
 
             var job2 = JobQueue.Peek();
 
-            job2.Parameters.Count.ShouldEqual(2);
+            job2.Parameters.Count.ShouldEqual(3);
         }
 
         [Test]
         public void SqlJobDequeueShouldDecreaseCountBy1()
         {
-            var job = new SqlJobToSucceed(DateTime.Parse("1/1/2012"), "abc123");
+            var job = new SqlJobToSucceed();
+            job.SetParameters(DateTime.Parse("1/1/2012"), "abcd", "SyncDBLogs");
             JobQueue.Enqueue(job);
             JobQueue.Dequeue();
 
@@ -53,7 +56,8 @@ namespace IntegrationTest.RepositoryTest
         [Test]
         public void ErroredSqlJobShouldNotHaltJobQeueueExecution()
         {
-            var job = new SqlJobToFail(DateTime.Parse("1/1/2012"));
+            var job = new SqlJobToFail();
+            job.SetParameters(DateTime.Parse("1/1/2012"));
             JobQueue.Enqueue(job);
 
             JobQueue.Execute();

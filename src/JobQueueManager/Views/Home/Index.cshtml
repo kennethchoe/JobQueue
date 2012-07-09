@@ -32,9 +32,9 @@
             <label for="enqueue">Assembly Name:</label>
             <input type="text" name="EnqueueJobAssemblyName" value="SampleSqlJobLibrary"/>
             <label>Class Name:</label>
-            <input type="text" name="EnqueueJobClassName" value="SampleSqlJobLibrary.SqlJobToSucceed"/>
+            <input type="text" name="EnqueueJobClassName" value="SampleSqlJobLibrary.Jobs.SqlJobToSucceed"/>
             <label>Parameters:</label>
-            <input type="text" name="EnqueueJobParameters" value="01/01/2012,bcde"/>
+            <input type="text" name="EnqueueJobParameters" value="@("{\"TargetDate\":\"01/01/2012\",\"arg2\":\"cdef\",\"{TargetTable}\":\"SyncDbLogs\"}")"/>
             <br />
 
         

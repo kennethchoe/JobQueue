@@ -52,7 +52,7 @@ namespace SqlRepository
                 if (item == null)
                     throw new ItemDeserializationException("Item deserialization failed.");
 
-                item.ItemContent = itemRecord.ItemContent;
+                item.ItemAttributes = itemRecord.ItemAttributes;
                 item.ItemId = itemRecord.Id.ToString(CultureInfo.InvariantCulture);
 
                 return (T) item;
@@ -96,10 +96,10 @@ namespace SqlRepository
         {
             var assemblyName = item.GetType().Assembly.ToString();
             var className = item.GetType().ToString();
-            var itemContent = item.ItemContent;
+            var itemAttributes = item.ItemAttributes;
 
             Connection.Open();
-            var newItem = new ItemRecord { ItemName = item.ItemDescription, AssemblyName = assemblyName, ClassName = className, ItemContent = itemContent };
+            var newItem = new ItemRecord { ItemName = item.ItemDescription, AssemblyName = assemblyName, ClassName = className, ItemAttributes = itemAttributes };
             Connection.Insert(newItem);
             Connection.Close();
             return newItem.Id.ToString(CultureInfo.InvariantCulture);

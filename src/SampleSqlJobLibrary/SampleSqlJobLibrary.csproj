@@ -35,40 +35,41 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JobGroups\JobGroupWith2Jobs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlJobToFail.cs" />
-    <Compile Include="SqlJobToSucceed.cs" />
-    <Compile Include="SqlJobWithWrongConnectionString.cs" />
+    <Compile Include="Jobs\SqlJobToFail.cs" />
+    <Compile Include="Jobs\SqlJobToSucceed.cs" />
+    <Compile Include="Jobs\SqlJobWithWrongConnectionString.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Sql\SqlJobToFail\01.sql" />
+    <EmbeddedResource Include="JobSqls\SqlJobToFail\01.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Sql\SqlJobToFail\01.sql.Undo" />
+    <EmbeddedResource Include="JobSqls\SqlJobToFail\01.sql.Undo" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Sql\SqlJobToFail\02.sql" />
+    <EmbeddedResource Include="JobSqls\SqlJobToFail\02.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Sql\SqlJobToFail\03.sql" />
+    <EmbeddedResource Include="JobSqls\SqlJobToFail\03.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Sql\SqlJobToFail\03.sql.Undo" />
+    <EmbeddedResource Include="JobSqls\SqlJobToFail\03.sql.Undo" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Sql\SqlJobToFail\04.sql" />
+    <EmbeddedResource Include="JobSqls\SqlJobToFail\04.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Sql\SqlJobToFail\04.sql.Undo" />
+    <EmbeddedResource Include="JobSqls\SqlJobToFail\04.sql.Undo" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Sql\SqlJobToSucceed\01_statement1.sql" />
+    <EmbeddedResource Include="JobSqls\SqlJobToSucceed\01_simple_statement.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Sql\SqlJobToSucceed\02_statement2.sql" />
+    <EmbeddedResource Include="JobSqls\SqlJobToSucceed\02_parameter_example.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Sql\SqlJobWithWrongConnectionString\01.sql" />
+    <EmbeddedResource Include="JobSqls\SqlJobWithWrongConnectionString\01.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JobQueueCore\JobQueueCore.csproj">
@@ -79,6 +80,9 @@
       <Project>{BDEC487C-159B-4D4B-89AD-A4B06B308728}</Project>
       <Name>SqlJobExtension</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="JobSqls\SqlJobToSucceed\03_macro_parameter_example.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

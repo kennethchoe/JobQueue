@@ -89,13 +89,13 @@ namespace JobQueueCore
             get { return GetType() + " " + ItemId; }
         }
 
-        public virtual string ItemContent
+        public virtual string ItemAttributes
         {
-            get { return GetItemContent(); }
-            set { SetItemContent(value); }
+            get { return GetItemAttributes(); }
+            set { SetItemAttributes(value); }
         }
 
-        private string GetItemContent()
+        private string GetItemAttributes()
         {
             string getParam = "";
             foreach (var parameter in Parameters)
@@ -109,21 +109,28 @@ namespace JobQueueCore
             return getParam;
         }
 
-        #endregion
-
-        private void SetItemContent(string parameters)
+        private void SetItemAttributes(string itemAttributes)
         {
             int i = 0;
             var newParams = new Dictionary<string, object>();
 
-            var parameterArray = parameters.Split(',');
-            foreach (var parameter in Parameters)
+            if (itemAttributes != null)
             {
-                newParams.Add(parameter.Key, parameterArray[i]);
-                i++;
+                var parameterArray = itemAttributes.Split(',');
+                foreach (var parameter in Parameters)
+                {
+                    newParams.Add(parameter.Key, parameterArray[i]);
+                    i++;
+                }
             }
             
             Parameters = newParams;
+        }
+        #endregion
+
+        public void DeserializeParameters(string parameters)
+        {
+            SetItemAttributes(parameters);
         }
     }
 }

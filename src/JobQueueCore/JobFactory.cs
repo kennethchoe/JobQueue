@@ -4,18 +4,40 @@ namespace JobQueueCore
 {
     public static class JobFactory
     {
-        public static Job Build(string assemblyName, string className, string parameters)
+        public static Job Build(string assemblyName, string className)
         {
-            var obj = Activator.CreateInstance(assemblyName, className).Unwrap();
-            var job = obj as Job;
+            var obj = CreateInstance(assemblyName, className);
 
+            var job = obj as Job;
             if (job == null)
             {
-                throw new Exception("Job class not found.");
+                throw new Exception("The class is not Job class.");
             }
 
-            job.ItemContent = parameters;
             return job;
+        }
+
+        public static JobGroup BuildJobGroup(string assemblyName, string className)
+        {
+            var obj = CreateInstance(assemblyName, className);
+
+            var jobGroup = obj as JobGroup;
+            if (jobGroup == null)
+            {
+                throw new Exception("The class is not JobGroup class.");
+            }
+
+            return jobGroup;
+        }
+
+        private static object CreateInstance(string assemblyName, string className)
+        {
+            var obj = Activator.CreateInstance(assemblyName, className).Unwrap();
+            if (obj == null)
+            {
+                throw new Exception("The class not found.");
+            }
+            return obj;
         }
     }
 }

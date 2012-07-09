@@ -130,6 +130,8 @@ Thumbs.db
 # Folder config file
 Desktop.ini
 
+# windows service installation log
+InstallUtil.InstallLog
 
 #############
 ## Python

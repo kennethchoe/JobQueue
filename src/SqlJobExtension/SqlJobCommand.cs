@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 using JobQueueCore;
 
 namespace SqlJobExtension
@@ -29,9 +31,7 @@ namespace SqlJobExtension
         public override void Execute()
         {
             EnsureConnectionIsOpen();
-            var sqlWithParameter = ApplyParameters(Sql);
-            var cmd = new SqlCommand(sqlWithParameter, Connection);
-            cmd.ExecuteNonQuery();
+            ExecuteNonQuery(Sql);
         }
 
         private void EnsureConnectionIsOpen()
@@ -47,24 +47,36 @@ namespace SqlJobExtension
             if (UndoSql != "")
             {
                 EnsureConnectionIsOpen();
-                var sqlWithParameter = ApplyParameters(UndoSql);
-                var cmd = new SqlCommand(sqlWithParameter, Connection);
-                cmd.ExecuteNonQuery();
+                ExecuteNonQuery(UndoSql);
             }
         }
 
-        private string ApplyParameters(string sql)
+        private void ExecuteNonQuery(string sql)
         {
-            var param = new object[Parameters.Count];
-
-            int i = 0;
-            foreach (var parameter in Parameters)
+            var cmd = new SqlCommand(sql, Connection);
+            if (JobConfiguration.AppSettings != null)
             {
-                param[i] = parameter.Value;
-                i++;
+                try
+                {
+                    var timeout = JobConfiguration.AppSettings["CommandTimeout"];
+                    cmd.CommandTimeout = Int32.Parse(timeout.ToString());
+                }
+                catch
+                {
+                }
             }
 
-            return string.Format(sql, param);
+            foreach (var parameter in Parameters)
+                cmd.Parameters.AddWithValue(parameter.Key, parameter.Value);
+
+            if (JobConfiguration.LogDebugInfo())
+            {
+                LoggerDelegate.LogDebugInfo(CommandName(), "Parameters:\r\n" + cmd.Parameters);
+                LoggerDelegate.LogDebugInfo(CommandName(), "Sql:\r\n" + sql);
+            }
+
+            cmd.ExecuteNonQuery();
         }
+
     }
 }

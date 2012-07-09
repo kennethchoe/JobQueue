@@ -1,0 +1,1 @@
+﻿insert into SyncDBLogs(LogText) values('Simple statement executed.');

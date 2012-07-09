@@ -5,7 +5,7 @@ namespace IntegrationTest.RepositoryTest
 {
     public class NotDeserializableJob: Job
     {
-        public new string ItemContent
+        public new string ItemAttributes
         {
             get { return ""; }
             set { throw new NotDeserializableJobException(); }

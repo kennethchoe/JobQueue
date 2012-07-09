@@ -31,5 +31,13 @@ namespace SqlRepository
             Connection.Insert(newItem);
             Connection.Close();
         }
+
+        public void LogDebugInfo(string subject, string debugInfo)
+        {
+            Connection.Open();
+            var newItem = new SqlQueueLog { LogText = "Debug Info from " + subject + ":\r\n" + debugInfo, CreatedDate = DateTime.Now };
+            Connection.Insert(newItem);
+            Connection.Close();
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace JobQueueCore
     {
         void Log(LogActivity activity, string subject);
         void LogError(string subject, Exception e);
+        void LogDebugInfo(string subject, string debugInfo);
     }
 
     public enum LogActivity

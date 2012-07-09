@@ -1,4 +1,6 @@
-﻿using System.ServiceProcess;
+﻿using System;
+using System.Collections.Generic;
+using System.ServiceProcess;
 using System.Threading;
 using JobQueueCore;
 using JobQueueManager.App_Start;
@@ -46,7 +48,7 @@ namespace FullSystemTest.JobQueueManagerTest
         [Test]
         public void EnqueuedCommonJobShouldBeQueuedStatusThenInvalidAfterExecution()
         {
-            var jobId = new EnqueueJobController().Get("JobQueueCore", "JobQueueCore.Job", "");
+            var jobId = new EnqueueJobController().Get("JobQueueCore", "JobQueueCore.Job", "{\"TargetDate\":\"01/01/2012\",\"arg2\":\"cdef\",\"{TargetTable}\":\"SyncDBLogs\"}");
 
             TestAJob(jobId);
         }
@@ -54,7 +56,7 @@ namespace FullSystemTest.JobQueueManagerTest
         [Test]
         public void EnqueuedSqlJobShouldBeQueuedStatusThenInvalidAfterExecution()
         {
-            var jobId = new EnqueueJobController().Get("SampleSqlJobLibrary", "SampleSqlJobLibrary.SqlJobToSucceed", "01/01/2012,cdef");
+            var jobId = new EnqueueJobController().Get("SampleSqlJobLibrary", "SampleSqlJobLibrary.Jobs.SqlJobToSucceed", "{\"TargetDate\":\"01/01/2012\",\"arg2\":\"cdef\",\"{TargetTable}\":\"SyncDBLogs\"}");
 
             TestAJob(jobId);
         }
@@ -82,5 +84,14 @@ namespace FullSystemTest.JobQueueManagerTest
             jobStatus = new GetJobStatusController().Get(jobId);
             jobStatus.ShouldEqual(JobStatus.InvalidJobId);
         }
+
+        [Test]
+        public void JobGroupShouldEnqueueMultipleJobs()
+        {
+            StopJobService();
+            string[] jobIds = new EnqueueJobGroupController().Get("SampleSqlJobLibrary", "SampleSqlJobLibrary.JobGroups.JobGroupWith2Jobs", "{\"TargetDate\":\"01/01/2012\",\"arg2\":\"cdef\"}");
+            jobIds.Length.ShouldEqual(2);
+        }
+
     }
 }

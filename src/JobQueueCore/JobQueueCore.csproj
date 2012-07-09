@@ -45,6 +45,7 @@
     <Compile Include="IQueueRepository.cs" />
     <Compile Include="JobExecutor.cs" />
     <Compile Include="JobFactory.cs" />
+    <Compile Include="JobGroup.cs" />
     <Compile Include="JobStatus.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="JobQueue.cs" />

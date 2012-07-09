@@ -20,8 +20,12 @@ namespace FileRepository
 
         public void Log(LogActivity activity, string subject)
         {
+            LogContent(DateTime.Now + "\t" + activity.ToString() + "\t" + subject + "\n");
+        }
+
+        private void LogContent(string content)
+        {
             string fileName = _logfileDirectory.FullName + DateTime.Now.ToString("yyyy_MMM_dd") + ".txt";
-            var content = DateTime.Now + "\t" + activity.ToString() + "\t" + subject + "\n";
 
             Stream oStream = new FileStream(fileName, FileMode.Append);
             oStream.Write(Encoding.ASCII.GetBytes(content), 0, Encoding.ASCII.GetByteCount(content));
@@ -37,6 +41,11 @@ namespace FileRepository
             {
                 Log(LogActivity.ErrorOccurred, line);
             }
+        }
+
+        public void LogDebugInfo(string subject, string debugInfo)
+        {
+            LogContent("DebugInfo from " + subject + ":\r\n" + debugInfo);
         }
     }
 }

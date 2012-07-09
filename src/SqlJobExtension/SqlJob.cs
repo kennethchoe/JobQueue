@@ -4,12 +4,14 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using JobQueueCore;
 
 namespace SqlJobExtension
 {
     public class SqlJob: Job
     {
+        public static readonly Regex CurlyParameterPattern = new Regex("\\{(.*)\\}");
         public SqlConnection Connection;
 
         public SqlJob()
@@ -35,7 +37,7 @@ namespace SqlJobExtension
 
         private IEnumerable<string> GetSqlFileNames(IEnumerable<string> allResourceNames)
         {
-            var resourceNamePattern = ".Sql." + GetType().Name + ".";
+            var resourceNamePattern = ".JobSqls." + GetType().Name + ".";
             return allResourceNames
                 .Where(rn => rn.Contains(resourceNamePattern) && rn.EndsWith(".sql")).ToList();
         }
@@ -73,8 +75,25 @@ namespace SqlJobExtension
                 SetConnection();
 
                 sqlCmd.Connection = Connection;
-                sqlCmd.Parameters = Parameters;
+                ApplyParameters(sqlCmd);
             }
+        }
+
+        private void ApplyParameters(SqlJobCommand sqlCmd)
+        {
+            var sqlParameters = new Dictionary<string, object>();
+            foreach (var parameter in Parameters)
+            {
+                if (CurlyParameterPattern.IsMatch(parameter.Key))
+                {
+                    sqlCmd.Sql = sqlCmd.Sql.Replace(parameter.Key, parameter.Value.ToString());
+                    sqlCmd.UndoSql = sqlCmd.UndoSql.Replace(parameter.Key, parameter.Value.ToString());
+                }
+                else
+                    sqlParameters.Add(parameter.Key, parameter.Value);
+            }
+
+            sqlCmd.Parameters = sqlParameters;
         }
 
         protected virtual string ConnectionStringKey

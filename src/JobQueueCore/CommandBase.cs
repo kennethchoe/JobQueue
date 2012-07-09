@@ -2,6 +2,11 @@
 {
     public abstract class CommandBase
     {
+        protected CommandBase()
+        {
+            LoggerDelegate = new NullLoggerDelegate();
+        }
+
         public int Order;
 
         public ILoggerDelegate LoggerDelegate;

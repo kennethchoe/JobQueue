@@ -3,7 +3,7 @@ CREATE TABLE dbo.ItemRecords(
 	ItemName varchar(300) not null,
 	AssemblyName varchar(300) null,
 	ClassName varchar(300) not null,
-	ItemContent varchar(3000) not null,
+	ItemAttributes varchar(3000) not null,
 	IsBad bit not null default 0,
 	CreatedDate datetime NULL
 ) ON [PRIMARY]

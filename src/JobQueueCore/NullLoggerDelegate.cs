@@ -13,5 +13,10 @@ namespace JobQueueCore
         {
             // do nothing
         }
+
+        public void LogDebugInfo(string subject, string debugInfo)
+        {
+            // do nothing
+        }
     }
 }

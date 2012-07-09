@@ -17,7 +17,7 @@ namespace JobQueueCore
     {
         string ItemId { get; set; }
         string ItemDescription { get; }
-        string ItemContent { get; set; }
+        string ItemAttributes { get; set; }
     }
 
     public class ItemDeserializationException : Exception

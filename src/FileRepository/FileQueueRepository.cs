@@ -51,14 +51,14 @@ namespace FileRepository
             {
                 var assemblyName = sr.ReadLine() + "";
                 var className = sr.ReadLine() + "";
-                var itemContent = sr.ReadToEnd();
+                var itemAttributes = sr.ReadToEnd();
 
                 var itemRaw = Activator.CreateInstance(assemblyName, className).Unwrap();
                 var item = itemRaw as IQueueItem;
                 if (item == null)
                     throw new ItemDeserializationException("Item deserialization failed.");
 
-                item.ItemContent = itemContent;
+                item.ItemAttributes = itemAttributes;
 
                 item.ItemId = ExtractItemIdFromFileName(fileName);
 
@@ -108,7 +108,7 @@ namespace FileRepository
             var ws = new StreamWriter(fileName);
             ws.WriteLine(item.GetType().Assembly);
             ws.WriteLine(item.GetType());
-            ws.WriteLine(item.ItemContent);
+            ws.WriteLine(item.ItemAttributes);
             ws.Close();
 
             return itemId;

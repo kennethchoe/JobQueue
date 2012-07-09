@@ -8,6 +8,7 @@ namespace UnitTest.JobQueueCore
     class LoggerMock : ILoggerDelegate
     {
         private readonly Collection<string> _log;
+        private readonly Collection<string> _debugLog;
 
         #region Implementation of ILoggerDelegate
 
@@ -25,17 +26,28 @@ namespace UnitTest.JobQueueCore
             Debug.Print(e.StackTrace);
         }
 
+        public void LogDebugInfo(string subject, string debugInfo)
+        {
+            _debugLog.Add(subject);
+        }
+
         #endregion
 
         public LoggerMock()
         {
             _log = new Collection<string>();
+            _debugLog = new Collection<string>();
         }
 
         public bool IsLogged(LogActivity logActivity, string subject)
         {
             var message = BuildMessage(logActivity, subject);
             return _log.Contains(message);
+        }
+
+        public bool IsDebugLogged(string subject)
+        {
+            return _debugLog.Contains(subject);
         }
 
         public bool IsLogged(LogActivity logActivity, CommandBase commandBase)

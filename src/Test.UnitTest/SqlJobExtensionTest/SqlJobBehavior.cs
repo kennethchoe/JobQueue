@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using JobQueueCore;
 using NUnit.Framework;
 using SampleSqlJobLibrary;
+using SampleSqlJobLibrary.Jobs;
 using Should;
 using UnitTest.Properties;
 
@@ -20,18 +21,20 @@ namespace UnitTest.SqlJobExtensionTest
         [Test]
         public void SqlJobShouldExecuteSqlStatements()
         {
-            var job = new SqlJobToSucceed(DateTime.Parse("1/1/2012"), "abcd");
+            var job = new SqlJobToSucceed();
+            job.SetParameters(DateTime.Parse("1/1/2012"), "abcd", "SyncDBLogs");
             job.Execute();
 
             var cmd = new SqlCommand("select top 1 LogText from SyncDBLogs order by id desc", job.Connection);
             var returnValue = cmd.ExecuteScalar();
-            returnValue.ShouldEqual("02 - 01/01/2012 message: abcd");
+            returnValue.ShouldEqual("Macro parameter will be replaced anywhere. Inserting into SyncDBLogs");
         }
 
         [Test]
         public void FailedSqlJobShouldExecuteUndoCommand()
         {
-            var job = new SqlJobToFail(DateTime.Parse("1/1/2012"));
+            var job = new SqlJobToFail();
+            job.SetParameters(DateTime.Parse("1/1/2012"));
             try
             {
                 job.Execute();

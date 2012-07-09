@@ -26,7 +26,7 @@ namespace UnitTest.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("data source=.\\SQLEXPRESS;persist security info=True;Integrated Security=SSPI;Init" +
-            "ial Catalog=BKTB4_SyncDB_demo_wrong")]
+            "ial Catalog=JobQueue_demo_wrong")]
         public string WrongConnectionString {
             get {
                 return ((string)(this["WrongConnectionString"]));
@@ -36,10 +36,19 @@ namespace UnitTest.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("data source=.\\SQLEXPRESS;persist security info=True;Integrated Security=SSPI;Init" +
-            "ial Catalog=BKTB4_SyncDB_demo")]
+            "ial Catalog=JobQueue_demo")]
         public string ConnectionString {
             get {
                 return ((string)(this["ConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LogDebugInfo {
+            get {
+                return ((bool)(this["LogDebugInfo"]));
             }
         }
     }

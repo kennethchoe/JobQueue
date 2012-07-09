@@ -1,0 +1,1 @@
+﻿insert into {TargetTable}(LogText) values('Macro parameter will be replaced anywhere. Inserting into {TargetTable}');
