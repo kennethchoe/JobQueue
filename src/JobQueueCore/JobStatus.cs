@@ -4,6 +4,7 @@ namespace JobQueueCore
     {
         Queued,
         Executing,
+        Executed,
         Failed,
         InvalidJobId,
         NotDeserializable

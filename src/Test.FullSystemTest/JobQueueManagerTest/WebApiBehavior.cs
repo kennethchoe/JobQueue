@@ -46,17 +46,17 @@ namespace FullSystemTest.JobQueueManagerTest
         }
 
         [Test]
-        public void EnqueuedCommonJobShouldBeQueuedStatusThenInvalidAfterExecution()
+        public void EnqueuedCommonJobShouldBeQueuedStatusThenExecutedAfterExecution()
         {
-            var jobId = new EnqueueJobController().Get("JobQueueCore", "JobQueueCore.Job", "{\"TargetDate\":\"01/01/2012\",\"arg2\":\"cdef\",\"{TargetTable}\":\"SyncDBLogs\"}");
+            var jobId = new EnqueueJobController().Get("JobQueueCore", "JobQueueCore.Job", "{\"TargetDate\":\"01/01/2012\",\"arg2\":\"cdef\",\"{TargetTable}\":\"TestLogs\"}");
 
             TestAJob(jobId);
         }
 
         [Test]
-        public void EnqueuedSqlJobShouldBeQueuedStatusThenInvalidAfterExecution()
+        public void EnqueuedSqlJobShouldBeQueuedStatusThenExecutedAfterExecution()
         {
-            var jobId = new EnqueueJobController().Get("SampleSqlJobLibrary", "SampleSqlJobLibrary.Jobs.SqlJobToSucceed", "{\"TargetDate\":\"01/01/2012\",\"arg2\":\"cdef\",\"{TargetTable}\":\"SyncDBLogs\"}");
+            var jobId = new EnqueueJobController().Get("SampleSqlJobLibrary", "SampleSqlJobLibrary.Jobs.SqlJobToSucceed", "{\"TargetDate\":\"01/01/2012\",\"arg2\":\"cdef\",\"{TargetTable}\":\"TestLogs\"}");
 
             TestAJob(jobId);
         }
@@ -82,7 +82,7 @@ namespace FullSystemTest.JobQueueManagerTest
             status.JobCount.ShouldEqual(0);
 
             jobStatus = new GetJobStatusController().Get(jobId);
-            jobStatus.ShouldEqual(JobStatus.InvalidJobId);
+            jobStatus.ShouldEqual(JobStatus.Executed);
         }
 
         [Test]

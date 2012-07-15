@@ -3,8 +3,6 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using Dapper;
-using DapperExtensions;
-using DapperExtensions.Mapper;
 using JobQueueCore;
 
 namespace SqlRepository
@@ -12,11 +10,13 @@ namespace SqlRepository
     public class SqlQueueRepository<T> : IQueueRepository<T> where T : IQueueItem
     {
         public SqlConnection Connection;
+        private readonly string _queueTableName;
 
-        public SqlQueueRepository(SqlConnection connection)
+        public SqlQueueRepository(SqlConnection connection, string tableName)
         {
             Connection = connection;
-            DapperExtensions.DapperExtensions.DefaultMapper = typeof(PluralizedAutoClassMapper<>);
+            _queueTableName = tableName;
+            //DapperExtensions.DapperExtensions.DefaultMapper = typeof(PluralizedAutoClassMapper<>);
         }
 
         public T Peek()
@@ -30,7 +30,7 @@ namespace SqlRepository
             var itemRecord = GetFirstItemRecord();
 
             Connection.Open();
-            Connection.Execute("update ItemRecords set IsBad = 1 where id = @id", new { id = itemRecord.Id });
+            Connection.Execute("update " + _queueTableName + " set IsBad = 1 where id = @id", new { id = itemRecord.Id });
             Connection.Close();
         }
 
@@ -66,7 +66,7 @@ namespace SqlRepository
         private ItemRecord GetFirstItemRecord()
         {
             Connection.Open();
-            var itemRecords = Connection.Query<ItemRecord>("select top 1 * from ItemRecords where IsBad = 0 order by Id");
+            var itemRecords = Connection.Query<ItemRecord>("select top 1 * from " + _queueTableName + " where IsBad = 0 order by Id");
             Connection.Close();
 
             var itemRecord = itemRecords.FirstOrDefault();
@@ -76,7 +76,7 @@ namespace SqlRepository
         private ItemRecord GetItemRecordById(int id)
         {
             Connection.Open();
-            var itemRecords = Connection.Query<ItemRecord>("select * from ItemRecords where Id = @Id", new { Id = id });
+            var itemRecords = Connection.Query<ItemRecord>("select * from " + _queueTableName + " where Id = @Id", new { Id = id });
             Connection.Close();
 
             var itemRecord = itemRecords.FirstOrDefault();
@@ -86,7 +86,7 @@ namespace SqlRepository
         public int Count()
         {
             Connection.Open();
-            var counts = Connection.Query<int>("select itemCount = count(*) from ItemRecords where IsBad = 0");
+            var counts = Connection.Query<int>("select itemCount = count(*) from " + _queueTableName + " where IsBad = 0");
             Connection.Close();
 
             return counts.First();
@@ -99,10 +99,28 @@ namespace SqlRepository
             var itemAttributes = item.ItemAttributes;
 
             Connection.Open();
-            var newItem = new ItemRecord { ItemName = item.ItemDescription, AssemblyName = assemblyName, ClassName = className, ItemAttributes = itemAttributes };
-            Connection.Insert(newItem);
+            if (item.ItemId == null)
+            {
+                var id = Connection.Query<decimal>(@"
+                        insert into " + _queueTableName + @"(ItemName, AssemblyName, ClassName, ItemAttributes) values(@a, @b, @c, @d)
+                        select scope_identity()",
+                    new {a = item.ItemDescription, b = assemblyName, c = className, d = itemAttributes}).Single();
+                item.ItemId = id.ToString(CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                Connection.Execute("SET IDENTITY_INSERT " + _queueTableName + " ON");
+
+                Connection.Execute(@"
+                        insert into " + _queueTableName + @"(Id, ItemName, AssemblyName, ClassName, ItemAttributes) values(@i, @a, @b, @c, @d)",
+                    new { i = item.ItemId, a = item.ItemDescription, b = assemblyName, c = className, d = itemAttributes });
+
+                Connection.Execute("SET IDENTITY_INSERT " + _queueTableName + " OFF");
+              
+            };
+
             Connection.Close();
-            return newItem.Id.ToString(CultureInfo.InvariantCulture);
+            return item.ItemId;
         }
 
         public T Dequeue()
@@ -110,7 +128,7 @@ namespace SqlRepository
             var item = Peek();
 
             Connection.Open();
-            Connection.Execute("delete from ItemRecords where id in (select min(id) from ItemRecords where IsBad = 0)");
+            Connection.Execute("delete from " + _queueTableName + " where id in (select min(id) from " + _queueTableName + " where IsBad = 0)");
             Connection.Close();
 
             return item;
@@ -119,7 +137,7 @@ namespace SqlRepository
         public void Clear()
         {
             Connection.Open();
-            Connection.Execute("delete from ItemRecords");
+            Connection.Execute("delete from " + _queueTableName);
             Connection.Close();
         }
 

@@ -27,7 +27,7 @@ namespace UnitTest.JobQueueCore
         }
 
         [Test]
-        public void SuccessfulJobShouldShowQueuedAndExecutingAndThenInvalidId()
+        public void SuccessfulJobShouldShowQueuedAndExecutingAndThenExecuted()
         {
             _executingJobId = _jobQueue.Enqueue(new JobToSucceed());
             _jobQueue.CheckJobStatusById(_executingJobId).ShouldEqual(JobStatus.Queued);
@@ -35,7 +35,7 @@ namespace UnitTest.JobQueueCore
             _jobQueue.ProgressDelegate = this;
 
             _jobQueue.Execute();
-            _jobQueue.CheckJobStatusById(_executingJobId).ShouldEqual(JobStatus.InvalidJobId);
+            _jobQueue.CheckJobStatusById(_executingJobId).ShouldEqual(JobStatus.Executed);
         }
 
         #region Implementation of IProgressDelegate

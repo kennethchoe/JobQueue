@@ -27,7 +27,7 @@ namespace IntegrationTest.JobExecutionServiceTest
         public void JobExecutorShouldWait()
         {
             var job = new SqlJobToSucceed();
-            job.SetParameters(DateTime.Parse("1/1/2012"), "abcd", "SyncDBLogs");
+            job.SetParameters(DateTime.Parse("1/1/2012"), "abcd", "TestLogs");
             _fileQueue.Enqueue(job);
 
             var jobExecutor = new JobExecutor(_fileQueue);

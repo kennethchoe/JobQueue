@@ -1,1 +1,1 @@
-﻿insert into SyncDBLogs(LogText) values('Simple statement executed.');
+﻿insert into TestLogs(LogText) values('Simple statement executed.');

@@ -32,7 +32,7 @@ namespace IntegrationTest.RepositoryTest
         public void SqlJobWithParametersShouldBePreservedAfterEnqueued()
         {
             var job = new SqlJobToSucceed();
-            job.SetParameters(DateTime.Parse("1/1/2012"), "abcd", "SyncDBLogs");
+            job.SetParameters(DateTime.Parse("1/1/2012"), "abcd", "TestLogs");
             JobQueue.Enqueue(job);
 
             JobQueue.Count.ShouldEqual(1);
@@ -46,7 +46,7 @@ namespace IntegrationTest.RepositoryTest
         public void SqlJobDequeueShouldDecreaseCountBy1()
         {
             var job = new SqlJobToSucceed();
-            job.SetParameters(DateTime.Parse("1/1/2012"), "abcd", "SyncDBLogs");
+            job.SetParameters(DateTime.Parse("1/1/2012"), "abcd", "TestLogs");
             JobQueue.Enqueue(job);
             JobQueue.Dequeue();
 

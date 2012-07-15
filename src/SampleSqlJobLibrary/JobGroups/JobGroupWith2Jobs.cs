@@ -1,4 +1,5 @@
-﻿using JobQueueCore;
+﻿using System.Collections.Generic;
+using JobQueueCore;
 using SampleSqlJobLibrary.Jobs;
 
 namespace SampleSqlJobLibrary.JobGroups
@@ -7,13 +8,14 @@ namespace SampleSqlJobLibrary.JobGroups
     {
         public override string[] EnqueueOnJobQueue(JobQueue jobQueue)
         {
-            var job1 = new SqlJobToSucceed {Parameters = Parameters};
-            var job1Id = jobQueue.Enqueue(job1);
+            LogJobGroup(jobQueue.LoggerDelegate, "");
 
-            var job2 = new SqlJobToSucceed {Parameters = Parameters};
-            var job2Id = jobQueue.Enqueue(job2);
-
-            return new string[2] { job1Id, job2Id };
+            var jobIds = new List<string>()
+                {
+                    EnqueueJob<SqlJobToSucceed>(jobQueue), 
+                    EnqueueJob<SqlJobToSucceed>(jobQueue)
+                };
+            return jobIds.ToArray();
         }
     }
 }

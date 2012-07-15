@@ -10,6 +10,7 @@ namespace JobQueueCore
 
         public IQueueRepository<Job> Repository;
         public IQueueRepository<Job> ErroredJobs;
+        public IQueueRepository<Job> ExecutedJobs;
 
         private string _currentJobId = "";
 
@@ -19,6 +20,7 @@ namespace JobQueueCore
             LoggerDelegate = new NullLoggerDelegate();
             Repository = new InMemoryQueueRepository<Job>();
             ErroredJobs = new InMemoryQueueRepository<Job>();
+            ExecutedJobs = new InMemoryQueueRepository<Job>();
         }
 
         public int Count
@@ -62,6 +64,8 @@ namespace JobQueueCore
         public void Clear()
         {
             Repository.Clear();
+            ErroredJobs.Clear();
+            ExecutedJobs.Clear();
             LoggerDelegate.Log(LogActivity.QueueCleared, "");
         }
 
@@ -100,7 +104,10 @@ namespace JobQueueCore
                 job.Execute();
 
                 if (!job.IsStopped)
+                {
                     Dequeue();
+                    ExecutedJobs.Enqueue(job);
+                }
             }
             catch (Exception)
             {
@@ -121,7 +128,11 @@ namespace JobQueueCore
 
             try
             {
-                var item = ErroredJobs.FindItemById(jobId);
+                var item = ExecutedJobs.FindItemById(jobId);
+                if (item != null)
+                    return JobStatus.Executed;
+
+                item = ErroredJobs.FindItemById(jobId);
                 if (item != null)
                     return JobStatus.Failed;
 

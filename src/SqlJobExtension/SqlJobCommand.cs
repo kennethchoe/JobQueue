@@ -49,6 +49,10 @@ namespace SqlJobExtension
                 EnsureConnectionIsOpen();
                 ExecuteNonQuery(UndoSql);
             }
+            else
+            {
+                throw new UndoCommandNotDefinedExcepton();
+            }
         }
 
         private void ExecuteNonQuery(string sql)
@@ -72,7 +76,12 @@ namespace SqlJobExtension
             if (JobConfiguration.LogDebugInfo())
             {
                 LoggerDelegate.LogDebugInfo(CommandName(), "Parameters:\r\n" + cmd.Parameters);
-                LoggerDelegate.LogDebugInfo(CommandName(), "Sql:\r\n" + sql);
+
+                // make non-sql logs to be commented out when pasted to SQL Mgmt Studio.
+                const string sqlCommentIn = "\r\n/*\r\n";
+                const string sqlCommentOut = "*/\r\n";
+
+                LoggerDelegate.LogDebugInfo(CommandName(), "Sql:\r\n" + sqlCommentOut + sql + sqlCommentIn);
             }
 
             cmd.ExecuteNonQuery();

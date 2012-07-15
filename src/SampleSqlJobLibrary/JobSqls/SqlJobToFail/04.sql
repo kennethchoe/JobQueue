@@ -1,1 +1,1 @@
-﻿insert into SyncDBLogs(LogText) values('04 - ' + convert(varchar, convert(datetime, @TargetDate), 101));
+﻿insert into TestLogs(LogText) values('04 - ' + convert(varchar, convert(datetime, @TargetDate), 101));

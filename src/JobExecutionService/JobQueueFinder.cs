@@ -25,19 +25,22 @@ namespace JobExecutionService
             string jobExecutionServiceLocation = GetPathOfService(jobExecutionServiceName);
             var fileRep = new FileQueueRepository<Job>(jobExecutionServiceLocation + "\\queue");
             var fileErrorRep = new FileQueueRepository<Job>(jobExecutionServiceLocation + "\\queue-error");
+            var fileExecutedRep = new FileQueueRepository<Job>(jobExecutionServiceLocation + "\\queue-executed");
             var logger = new Logger(jobExecutionServiceLocation + "\\log");
 
-            return new JobQueue { Repository = fileRep, ErroredJobs = fileErrorRep, LoggerDelegate = logger };
+            return new JobQueue { Repository = fileRep, ErroredJobs = fileErrorRep, ExecutedJobs = fileExecutedRep, LoggerDelegate = logger };
         }
 
         private static JobQueue AcquireSqlJobQueue()
         {
             var conn = new SqlConnection { ConnectionString = Settings.Default.ConnectionString };
 
-            var sqlRep = new SqlQueueRepository<Job>(conn);
+            var sqlRep = new SqlQueueRepository<Job>(conn, "ActiveItems");
+            var sqlErrorRep = new SqlQueueRepository<Job>(conn, "ErroredItems");
+            var sqlExecutedRep = new SqlQueueRepository<Job>(conn, "ExecutedItems");
             var logger = new SqlLogger(conn);
 
-            return new JobQueue { Repository = sqlRep, LoggerDelegate = logger };
+            return new JobQueue { Repository = sqlRep, ErroredJobs = sqlErrorRep, ExecutedJobs = sqlExecutedRep, LoggerDelegate = logger };
         }
 
         // http://stackoverflow.com/questions/2728578/how-to-get-phyiscal-path-of-windows-service-using-net

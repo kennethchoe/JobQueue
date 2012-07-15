@@ -47,6 +47,8 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="JobQueueCore\CommandToFail.cs" />
+    <Compile Include="JobQueueCore\CommandToFailWithoutUndo.cs" />
+    <Compile Include="JobQueueCore\JobWithFailingCommandWithoutUndoBehavior.cs" />
     <Compile Include="JobQueueCore\JobProgressBehavior.cs" />
     <Compile Include="JobQueueCore\JobQueueJobStatusBehavior.cs" />
     <Compile Include="JobQueueCore\JobQueueProgressBehavior.cs" />

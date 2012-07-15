@@ -1,1 +1,1 @@
-﻿insert into SyncDBLogs(LogText) values('01');
+﻿insert into TestLogs(LogText) values('01');

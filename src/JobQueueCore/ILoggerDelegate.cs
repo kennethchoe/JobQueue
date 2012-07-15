@@ -14,7 +14,6 @@ namespace JobQueueCore
     {
         ServiceStarted,
         ServiceStopped,
-        CommandStarted,
         CommandFinished,
         CommandUndone,
         JobStarted,
@@ -22,9 +21,11 @@ namespace JobQueueCore
         ErrorOccurred,
         Stopping,
         JobCancelled,
+        EnqueueJobGroup,
         Enqueued,
         Dequeued,
         QueueCleared,
-        WaitingForJob
+        WaitingForJob,
+        SkippingUndoNotDefined
     }
 }

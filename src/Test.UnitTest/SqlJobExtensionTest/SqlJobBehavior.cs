@@ -22,12 +22,12 @@ namespace UnitTest.SqlJobExtensionTest
         public void SqlJobShouldExecuteSqlStatements()
         {
             var job = new SqlJobToSucceed();
-            job.SetParameters(DateTime.Parse("1/1/2012"), "abcd", "SyncDBLogs");
+            job.SetParameters(DateTime.Parse("1/1/2012"), "abcd", "TestLogs");
             job.Execute();
 
-            var cmd = new SqlCommand("select top 1 LogText from SyncDBLogs order by id desc", job.Connection);
+            var cmd = new SqlCommand("select top 1 LogText from TestLogs order by id desc", job.Connection);
             var returnValue = cmd.ExecuteScalar();
-            returnValue.ShouldEqual("Macro parameter will be replaced anywhere. Inserting into SyncDBLogs");
+            returnValue.ShouldEqual("Macro parameter will be replaced anywhere. Inserting into TestLogs");
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace UnitTest.SqlJobExtensionTest
                 job.Undo();
             }
 
-            var cmd = new SqlCommand("select top 1 LogText from SyncDBLogs order by id desc", job.Connection);
+            var cmd = new SqlCommand("select top 1 LogText from TestLogs order by id desc", job.Connection);
             var returnValue = cmd.ExecuteScalar();
             returnValue.ShouldEqual("01 Undo");
         }

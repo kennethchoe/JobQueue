@@ -1,4 +1,4 @@
-CREATE TABLE [dbo].[SyncDBLogs](
+CREATE TABLE [dbo].[TestLogs](
 	[Id] [bigint] IDENTITY(1,1) NOT NULL,
 	[LogDate] [datetime] NULL,
 	[LogText] [varchar](8000) NULL
@@ -6,5 +6,5 @@ CREATE TABLE [dbo].[SyncDBLogs](
 
 GO
 
-ALTER TABLE [dbo].[SyncDBLogs] ADD  DEFAULT (getdate()) FOR [LogDate]
+ALTER TABLE [dbo].[TestLogs] ADD  DEFAULT (getdate()) FOR [LogDate]
 GO

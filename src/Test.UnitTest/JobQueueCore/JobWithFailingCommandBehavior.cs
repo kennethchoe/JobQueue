@@ -47,9 +47,7 @@ namespace UnitTest.JobQueueCore
             {
                 _job.Undo();
 
-                _logger.IsLogged(LogActivity.CommandStarted, _job.Commands[1]).ShouldBeTrue("Failing Command should have started log.");
                 _logger.IsLogged(LogActivity.CommandFinished, _job.Commands[1]).ShouldBeFalse("Failing Command should not have finished log.");
-                _logger.IsLogged(LogActivity.CommandStarted, _job.Commands[2]).ShouldBeFalse("Command after failing Command should not start.");
 
                 _logger.IsLogged(LogActivity.ErrorOccurred, _job.Commands[1]).ShouldBeTrue("Failing Command should have error log.");
 

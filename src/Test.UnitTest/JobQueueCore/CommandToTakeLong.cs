@@ -14,10 +14,5 @@ namespace UnitTest.JobQueueCore
         {
             Thread.Sleep(100);
         }
-
-        public override void Undo()
-        {
-            // do nothing
-        }
     }
 }

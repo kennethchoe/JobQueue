@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace JobQueueCore
 {
@@ -41,7 +42,6 @@ namespace JobQueueCore
                 }
 
                 command.Order = Commands.IndexOf(command) + 1;
-                LoggerDelegate.Log(LogActivity.CommandStarted, command.CommandNameWithOrder());
                 ExecutedCommands.Push(command);
                 TryExecuteCommand(command);
                 LoggerDelegate.Log(LogActivity.CommandFinished, command.CommandNameWithOrder());
@@ -75,8 +75,15 @@ namespace JobQueueCore
             while (ExecutedCommands.Count > 0)
             {
                 var command = ExecutedCommands.Pop();
-                command.Undo();
-                LoggerDelegate.Log(LogActivity.CommandUndone, command.CommandNameWithOrder());
+                try
+                {
+                    command.Undo();
+                    LoggerDelegate.Log(LogActivity.CommandUndone, command.CommandNameWithOrder());
+                }
+                catch (UndoCommandNotDefinedExcepton)
+                {
+                    LoggerDelegate.Log(LogActivity.SkippingUndoNotDefined, command.CommandNameWithOrder());
+                }
             }
         }
 
@@ -97,34 +104,12 @@ namespace JobQueueCore
 
         private string GetItemAttributes()
         {
-            string getParam = "";
-            foreach (var parameter in Parameters)
-            {
-                getParam += "," + parameter.Value;
-            }
-
-            if (getParam != "")
-                getParam = getParam.Substring(1);
-
-            return getParam;
+            return JsonConvert.SerializeObject(Parameters);
         }
 
         private void SetItemAttributes(string itemAttributes)
         {
-            int i = 0;
-            var newParams = new Dictionary<string, object>();
-
-            if (itemAttributes != null)
-            {
-                var parameterArray = itemAttributes.Split(',');
-                foreach (var parameter in Parameters)
-                {
-                    newParams.Add(parameter.Key, parameterArray[i]);
-                    i++;
-                }
-            }
-            
-            Parameters = newParams;
+            Parameters = JsonConvert.DeserializeObject<Dictionary<string, object>>(itemAttributes);
         }
         #endregion
 

@@ -1,4 +1,6 @@
-﻿namespace JobQueueCore
+﻿using System;
+
+namespace JobQueueCore
 {
     public abstract class CommandBase
     {
@@ -13,11 +15,20 @@
 
         public abstract string CommandName();
         public abstract void Execute();
-        public abstract void Undo();
+
+        public virtual void Undo()
+        {
+            throw new UndoCommandNotDefinedExcepton();
+        }
 
         public string CommandNameWithOrder()
         {
             return Order + ". " + CommandName();
         }
+    }
+
+    public class UndoCommandNotDefinedExcepton : Exception
+    {
+        
     }
 }
