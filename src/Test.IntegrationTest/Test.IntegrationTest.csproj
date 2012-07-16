@@ -63,7 +63,7 @@
       <Project>{1B7BDAD6-DE34-497A-ABC1-D26339F15CE9}</Project>
       <Name>JobQueueCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Logger\Log4NetLogger.csproj">
+    <ProjectReference Include="..\Log4NetLogger\Log4NetLogger.csproj">
       <Project>{DCDF6CA0-6B55-44E6-84D5-458B6E59C776}</Project>
       <Name>Log4NetLogger</Name>
     </ProjectReference>
