@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using JobQueueCore;
 using log4net;
 
@@ -6,24 +7,36 @@ namespace Log4NetLogger
 {
     public class Logger : ILoggerDelegate
     {
-        private static ILog _logger = LogManager.GetLogger("root");
-
         public void Log(LogActivity activity, string subject)
         {
-            log4net.ThreadContext.Properties["subject"] = subject;
-            _logger.Info(activity.ToString());
+            PrepareLogger(subject).Info(activity.ToString());
         }
 
         public void LogError(string subject, Exception e)
         {
-            log4net.ThreadContext.Properties["subject"] = subject;
-            _logger.Error(LogActivity.ErrorOccurred, e);
+            PrepareLogger(subject).Error(LogActivity.ErrorOccurred, e);
         }
 
         public void LogDebugInfo(string subject, string debugInfo)
         {
-            log4net.ThreadContext.Properties["subject"] = subject;
-            _logger.Debug(debugInfo);
+            PrepareLogger(subject).Debug(debugInfo);
+        }
+
+        private ILog PrepareLogger(string subject)
+        {
+            var callerMethod = (new StackFrame(2, true).GetMethod());
+
+            string loggerName = "";
+            if (callerMethod.DeclaringType != null)
+            {
+                loggerName = callerMethod.DeclaringType.FullName;
+            }
+
+            var logger = LogManager.GetLogger(loggerName);
+
+            ThreadContext.Properties["subject"] = subject;
+
+            return logger;
         }
     }
 }
