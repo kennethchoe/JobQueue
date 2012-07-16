@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SyncDBJobsTest.Properties {
+namespace SampleSqlJobLibraryTest.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -26,7 +26,7 @@ namespace SyncDBJobsTest.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("data source=.\\SQLEXPRESS;persist security info=True;Integrated Security=SSPI;Init" +
-            "ial Catalog=BKTB4_SyncDB_demo")]
+            "ial Catalog=JobQueue_demo")]
         public string ConnectionString {
             get {
                 return ((string)(this["ConnectionString"]));

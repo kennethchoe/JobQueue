@@ -9,8 +9,6 @@ namespace IntegrationTest.RepositoryTest
     [TestFixture]
     class FileRepositoryBehavior: RepositoryBehavior
     {
-        private Logger _logger;
-
         [SetUp]
         public void SetupQueue()
         {
@@ -19,11 +17,11 @@ namespace IntegrationTest.RepositoryTest
             Repository = new FileQueueRepository<Job>(Environment.CurrentDirectory + "\\queue");
             var fileErrorRep = new FileQueueRepository<Job>(Environment.CurrentDirectory + "\\queue-error");
             var fileExecutedRep = new FileQueueRepository<Job>(Environment.CurrentDirectory + "\\queue-executed");
-            _logger = new Logger(Environment.CurrentDirectory + "\\log");
             
-            JobQueue = new JobQueue { Repository = Repository, ErroredJobs = fileErrorRep, ExecutedJobs = fileExecutedRep, LoggerDelegate = _logger};
+            JobQueue = new JobQueue { Repository = Repository, ErroredJobs = fileErrorRep, ExecutedJobs = fileExecutedRep, LoggerDelegate = Logger};
             JobQueue.Clear();
             JobQueue.ErroredJobs.Clear();
+            JobQueue.ExecutedJobs.Clear();
         }
 
     }

@@ -42,14 +42,5 @@ namespace UnitTest.Properties {
                 return ((string)(this["ConnectionString"]));
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool LogDebugInfo {
-            get {
-                return ((bool)(this["LogDebugInfo"]));
-            }
-        }
     }
 }

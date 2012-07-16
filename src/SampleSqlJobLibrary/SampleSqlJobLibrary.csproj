@@ -31,6 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JobQueueCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SqlJobExtension\bin\Debug\JobQueueCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SqlJobExtension\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SqlJobExtension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SqlJobExtension\bin\Debug\SqlJobExtension.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -70,16 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="JobSqls\SqlJobWithWrongConnectionString\01.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\JobQueueCore\JobQueueCore.csproj">
-      <Project>{1B7BDAD6-DE34-497A-ABC1-D26339F15CE9}</Project>
-      <Name>JobQueueCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SqlJobExtension\SqlJobExtension.csproj">
-      <Project>{BDEC487C-159B-4D4B-89AD-A4B06B308728}</Project>
-      <Name>SqlJobExtension</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="JobSqls\SqlJobToSucceed\03_macro_parameter_example.sql" />

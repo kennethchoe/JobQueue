@@ -1,5 +1,6 @@
 ﻿using System;
 using JobQueueCore;
+using Log4NetLogger;
 using NUnit.Framework;
 using SampleSqlJobLibrary;
 using SampleSqlJobLibrary.Jobs;
@@ -11,6 +12,12 @@ namespace IntegrationTest.RepositoryTest
     {
         protected JobQueue JobQueue;
         protected IQueueRepository<Job> Repository;
+        protected ILoggerDelegate Logger;
+
+        public RepositoryBehavior()
+        {
+            Logger = new Logger();
+        }
 
         [Test]
         public void PeekOnEmptyJobQueueShouldReturnNull()

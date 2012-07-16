@@ -73,16 +73,8 @@ namespace SqlJobExtension
             foreach (var parameter in Parameters)
                 cmd.Parameters.AddWithValue(parameter.Key, parameter.Value);
 
-            if (JobConfiguration.LogDebugInfo())
-            {
-                LoggerDelegate.LogDebugInfo(CommandName(), "Parameters:\r\n" + cmd.Parameters);
-
-                // make non-sql logs to be commented out when pasted to SQL Mgmt Studio.
-                const string sqlCommentIn = "\r\n/*\r\n";
-                const string sqlCommentOut = "*/\r\n";
-
-                LoggerDelegate.LogDebugInfo(CommandName(), "Sql:\r\n" + sqlCommentOut + sql + sqlCommentIn);
-            }
+            LoggerDelegate.LogDebugInfo(CommandName(), "Parameters:\r\n" + cmd.Parameters);
+            LoggerDelegate.LogDebugInfo(CommandName(), "Sql:\r\n" + sql);
 
             cmd.ExecuteNonQuery();
         }

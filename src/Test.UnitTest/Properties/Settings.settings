@@ -8,8 +8,5 @@
     <Setting Name="ConnectionString" Type="System.String" Scope="Application">
       <Value Profile="(Default)">data source=.\SQLEXPRESS;persist security info=True;Integrated Security=SSPI;Initial Catalog=JobQueue_demo</Value>
     </Setting>
-    <Setting Name="LogDebugInfo" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
   </Settings>
 </SettingsFile>

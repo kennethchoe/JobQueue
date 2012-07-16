@@ -1,6 +1,7 @@
 ﻿using System.ServiceProcess;
 using JobExecutionService.Properties;
 using JobQueueCore;
+using log4net.Config;
 
 namespace JobExecutionService
 {
@@ -13,6 +14,7 @@ namespace JobExecutionService
         static void Main()
         {
             JobConfiguration.AppSettings = Settings.Default;
+            XmlConfigurator.Configure();
 
             var jobExecutionServiceName = Settings.Default.JobExecutionServiceName;
             var jobQueue = JobQueueFinder.GetJobQueue(jobExecutionServiceName, null);

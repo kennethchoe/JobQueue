@@ -17,6 +17,5 @@ namespace SampleSqlJobLibrary.Jobs
             Parameters["@arg2"] = arg2;
             Parameters["{TargetTable}"] = targetTable;
         }
-
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Data.SqlClient;
 using System.Management;
-using System.Windows.Forms;
 using FileRepository;
 using JobExecutionService.Properties;
 using JobQueueCore;
@@ -12,12 +11,16 @@ namespace JobExecutionService
     {
         public static JobQueue GetJobQueue(string jobExecutionServiceName, string repositoryType)
         {
+            JobQueue jobQueue;
             if ((repositoryType ?? Settings.Default.RepositoryType) == "file")
-                return AcquireFileJobQueue(jobExecutionServiceName);
+                jobQueue = AcquireFileJobQueue(jobExecutionServiceName);
+            else
+                // repositoryType is "sql"
+                jobQueue = AcquireSqlJobQueue();
 
-            // repositoryType is "sql"
-            return AcquireSqlJobQueue();
+            jobQueue.LoggerDelegate = new Log4NetLogger.Logger();
 
+            return jobQueue;
         }
 
         private static JobQueue AcquireFileJobQueue(string jobExecutionServiceName)
@@ -26,9 +29,8 @@ namespace JobExecutionService
             var fileRep = new FileQueueRepository<Job>(jobExecutionServiceLocation + "\\queue");
             var fileErrorRep = new FileQueueRepository<Job>(jobExecutionServiceLocation + "\\queue-error");
             var fileExecutedRep = new FileQueueRepository<Job>(jobExecutionServiceLocation + "\\queue-executed");
-            var logger = new Logger(jobExecutionServiceLocation + "\\log");
 
-            return new JobQueue { Repository = fileRep, ErroredJobs = fileErrorRep, ExecutedJobs = fileExecutedRep, LoggerDelegate = logger };
+            return new JobQueue { Repository = fileRep, ErroredJobs = fileErrorRep, ExecutedJobs = fileExecutedRep };
         }
 
         private static JobQueue AcquireSqlJobQueue()
@@ -38,9 +40,8 @@ namespace JobExecutionService
             var sqlRep = new SqlQueueRepository<Job>(conn, "ActiveItems");
             var sqlErrorRep = new SqlQueueRepository<Job>(conn, "ErroredItems");
             var sqlExecutedRep = new SqlQueueRepository<Job>(conn, "ExecutedItems");
-            var logger = new SqlLogger(conn);
 
-            return new JobQueue { Repository = sqlRep, ErroredJobs = sqlErrorRep, ExecutedJobs = sqlExecutedRep, LoggerDelegate = logger };
+            return new JobQueue { Repository = sqlRep, ErroredJobs = sqlErrorRep, ExecutedJobs = sqlExecutedRep };
         }
 
         // http://stackoverflow.com/questions/2728578/how-to-get-phyiscal-path-of-windows-service-using-net

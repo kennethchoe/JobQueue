@@ -1,11 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JobQueueCore;
 using SampleSqlJobLibrary.Jobs;
 
 namespace SampleSqlJobLibrary.JobGroups
 {
-    class JobGroupWith2Jobs: JobGroup
+    public class JobGroupWith2Jobs: JobGroup
     {
+        public void SetParameters(DateTime targetDate, string arg2, string targetTable)
+        {
+            Parameters["@TargetDate"] = targetDate;
+            Parameters["@arg2"] = arg2;
+            Parameters["{TargetTable}"] = targetTable;
+        }
+
         public override string[] EnqueueOnJobQueue(JobQueue jobQueue)
         {
             LogJobGroup(jobQueue.LoggerDelegate, "");
