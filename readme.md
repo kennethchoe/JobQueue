@@ -10,13 +10,13 @@ Defining Jobs
 =============================================
 Create .Net class library (DLL).
 
-Defining a command:
+Defining a JobTask:
 
-    class MyFirstCommand: CommandBase
+    class MyFirstJobTask: JobTaskBase
     {
-        public override string CommandName()
+        public override string JobTaskName()
         {
-            return "Command Name";
+            return "Job Task Name";
         }
 
         public override void Execute()
@@ -36,8 +36,8 @@ Defining a job:
     {
         public MyFirstJob()
         {
-            Commands.Add(new MyFirstCommand());
-            Commands.Add(new MySecondCommand());
+            JobTasks.Add(new MyFirstJobTask());
+            JobTasks.Add(new MySecondJobTask());
         }
     }
 
@@ -95,7 +95,7 @@ How to create SqlJob Library:
 2. Job Class should inherit from SqlJob instead of Job.
 4. Under the job class name folder, put your SQL statements in one more more files.
     * e.g. `JobSqls\MySqlJob\01_GetSnapshot.sql`
-5. If you need to define undo command for them, put SQL filename + `.undo` as extra.
+5. If you need to define undo task for them, put SQL filename + `.undo` as extra.
     * e.g. `JobSqls\MySqlJob\01_GetSnapshot.sql.undo`
 
 
