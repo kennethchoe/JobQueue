@@ -40,7 +40,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="SqlJob.cs" />
-    <Compile Include="SqlJobCommand.cs" />
+    <Compile Include="SqlJobTask.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

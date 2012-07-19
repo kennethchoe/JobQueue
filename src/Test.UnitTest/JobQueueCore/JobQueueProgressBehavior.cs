@@ -16,7 +16,7 @@ namespace UnitTest.JobQueueCore
             _jobQueue.Enqueue(new JobToSucceed());
 
             _jobQueue.Execute();
-            _jobQueue.Count.ShouldEqual(1, "Stopping after first job's first command execution should leave 1 job in the queue.");
+            _jobQueue.Count.ShouldEqual(1, "Stopping after first job's first task execution should leave 1 job in the queue.");
         }
 
         public bool ShouldStop()

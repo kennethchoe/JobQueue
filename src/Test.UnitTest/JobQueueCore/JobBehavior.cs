@@ -20,16 +20,16 @@ namespace UnitTest.JobQueueCore
         }
 
         [Test]
-        public void OneCommandInstanceCannotBeAddedTwice()
+        public void OneJobTaskInstanceCannotBeAddedTwice()
         {
             var job = new Job();
-            var successfulCmd = new CommandToSucceed();
+            var successfuljobTask = new JobTaskToSucceed();
             
             try
             {
-                job.Commands.Add(successfulCmd);
-                job.Commands.Add(successfulCmd);
-                Assert.Fail("Job commands should not allow adding the same Command instance twice.");
+                job.JobTasks.Add(successfuljobTask);
+                job.JobTasks.Add(successfuljobTask);
+                Assert.Fail("Job tasks should not allow adding the same JobTask instance twice.");
             }
             catch (DuplicateItemException e)
             {

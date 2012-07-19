@@ -46,9 +46,9 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="JobQueueCore\CommandToFail.cs" />
-    <Compile Include="JobQueueCore\CommandToFailWithoutUndo.cs" />
-    <Compile Include="JobQueueCore\JobWithFailingCommandWithoutUndoBehavior.cs" />
+    <Compile Include="JobQueueCore\JobTaskToFail.cs" />
+    <Compile Include="JobQueueCore\JobTaskToFailWithoutUndo.cs" />
+    <Compile Include="JobQueueCore\JobWithFailingTaskWithoutUndoBehavior.cs" />
     <Compile Include="JobQueueCore\JobProgressBehavior.cs" />
     <Compile Include="JobQueueCore\JobQueueJobStatusBehavior.cs" />
     <Compile Include="JobQueueCore\JobQueueProgressBehavior.cs" />
@@ -57,17 +57,17 @@
     <Compile Include="JobQueueCore\JobToFail.cs" />
     <Compile Include="JobQueueCore\JobToSucceed.cs" />
     <Compile Include="JobQueueCore\JobToTakeLong.cs" />
-    <Compile Include="JobQueueCore\JobWithFailingCommandBehavior.cs" />
+    <Compile Include="JobQueueCore\JobWithFailingTaskBehavior.cs" />
     <Compile Include="JobQueueCore\LoggerMock.cs" />
-    <Compile Include="JobQueueCore\CommandToTakeLong.cs" />
-    <Compile Include="JobQueueCore\CommandToSucceed.cs" />
+    <Compile Include="JobQueueCore\JobTaskToTakeLong.cs" />
+    <Compile Include="JobQueueCore\JobTaskToSucceed.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="SqlJobExtensionTest\SqlJobCommandBehavior.cs" />
+    <Compile Include="SqlJobExtensionTest\SqlJobTaskBehavior.cs" />
     <Compile Include="SqlJobExtensionTest\SqlJobBehavior.cs" />
   </ItemGroup>
   <ItemGroup>

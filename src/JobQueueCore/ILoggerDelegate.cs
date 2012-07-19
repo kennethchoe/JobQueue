@@ -14,8 +14,8 @@ namespace JobQueueCore
     {
         ServiceStarted,
         ServiceStopped,
-        CommandFinished,
-        CommandUndone,
+        TaskFinished,
+        TaskUndone,
         JobStarted,
         JobFinished,
         ErrorOccurred,

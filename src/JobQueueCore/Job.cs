@@ -7,15 +7,15 @@ namespace JobQueueCore
     public class Job: IQueueItem
     {
         public bool IsStopped;
-        public NoDupCollection<CommandBase> Commands;
-        public Stack<CommandBase> ExecutedCommands;
+        public NoDupCollection<JobTaskBase> JobTasks;
+        public Stack<JobTaskBase> ExecutedJobTasks;
         public ILoggerDelegate LoggerDelegate;
         public IProgressDelegate ProgressDelegate;
         public Dictionary<string, object> Parameters;
 
         public Job()
         {
-            Commands = new NoDupCollection<CommandBase>();
+            JobTasks = new NoDupCollection<JobTaskBase>();
             Parameters = new Dictionary<string, object>();
 
             LoggerDelegate = new NullLoggerDelegate();
@@ -28,61 +28,61 @@ namespace JobQueueCore
 
             LoggerDelegate.Log(LogActivity.JobStarted, ItemDescription);
 
-            ExecutedCommands = new Stack<CommandBase>();
+            ExecutedJobTasks = new Stack<JobTaskBase>();
 
-            foreach (var command in Commands)
+            foreach (var jobTask in JobTasks)
             {
                 if (ProgressDelegate.ShouldStop())
                 {
                     IsStopped = true;
-                    LoggerDelegate.Log(LogActivity.Stopping, command.CommandNameWithOrder());
+                    LoggerDelegate.Log(LogActivity.Stopping, jobTask.JobTaskNameWithOrder());
                     Undo();
                     LoggerDelegate.Log(LogActivity.JobCancelled, ItemDescription);
                     return;
                 }
 
-                command.Order = Commands.IndexOf(command) + 1;
-                ExecutedCommands.Push(command);
-                TryExecuteCommand(command);
-                LoggerDelegate.Log(LogActivity.CommandFinished, command.CommandNameWithOrder());
+                jobTask.Order = JobTasks.IndexOf(jobTask) + 1;
+                ExecutedJobTasks.Push(jobTask);
+                TryExecuteJobTask(jobTask);
+                LoggerDelegate.Log(LogActivity.TaskFinished, jobTask.JobTaskNameWithOrder());
             }
 
             LoggerDelegate.Log(LogActivity.JobFinished, ItemDescription);
         }
 
-        private void TryExecuteCommand(CommandBase command)
+        private void TryExecuteJobTask(JobTaskBase jobTask)
         {
             try
             {
-                command.LoggerDelegate = LoggerDelegate;
-                EnrichCommandBeforeExecution(command);
-                command.Execute();
+                jobTask.LoggerDelegate = LoggerDelegate;
+                EnrichJobTaskBeforeExecution(jobTask);
+                jobTask.Execute();
             }
             catch (Exception e)
             {
-                LoggerDelegate.LogError(command.CommandNameWithOrder(), e);
+                LoggerDelegate.LogError(jobTask.JobTaskNameWithOrder(), e);
                 throw;
             }
         }
 
-        protected virtual void EnrichCommandBeforeExecution(CommandBase command)
+        protected virtual void EnrichJobTaskBeforeExecution(JobTaskBase jobTask)
         {
             
         }
 
         public void Undo()
         {
-            while (ExecutedCommands.Count > 0)
+            while (ExecutedJobTasks.Count > 0)
             {
-                var command = ExecutedCommands.Pop();
+                var jobTask = ExecutedJobTasks.Pop();
                 try
                 {
-                    command.Undo();
-                    LoggerDelegate.Log(LogActivity.CommandUndone, command.CommandNameWithOrder());
+                    jobTask.Undo();
+                    LoggerDelegate.Log(LogActivity.TaskUndone, jobTask.JobTaskNameWithOrder());
                 }
-                catch (UndoCommandNotDefinedExcepton)
+                catch (UndoTaskNotDefinedExcepton)
                 {
-                    LoggerDelegate.Log(LogActivity.SkippingUndoNotDefined, command.CommandNameWithOrder());
+                    LoggerDelegate.Log(LogActivity.SkippingUndoNotDefined, jobTask.JobTaskNameWithOrder());
                 }
             }
         }

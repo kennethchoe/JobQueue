@@ -6,8 +6,8 @@ namespace UnitTest.JobQueueCore
     {
          public JobToFail()
         {
-            Commands.Add(new CommandToSucceed());
-            Commands.Add(new CommandToFail());
+            JobTasks.Add(new JobTaskToSucceed());
+            JobTasks.Add(new JobTaskToFail());
         }
     }
 }

@@ -16,10 +16,10 @@ namespace SqlJobExtension
 
         public SqlJob()
         {
-            LoadCommandsFromResourcesIfAny();
+            AddSqlJobTasksFromResourcesIfAny();
         }
 
-        private void LoadCommandsFromResourcesIfAny()
+        private void AddSqlJobTasksFromResourcesIfAny()
         {
             var allResourceNames = GetType().Assembly.GetManifestResourceNames();
             Array.Sort(allResourceNames);
@@ -28,10 +28,10 @@ namespace SqlJobExtension
 
             foreach (var resourceName in sqlResourceNames)
             {
-                var sqlCommand = new SqlJobCommand(resourceName, GetSqlScript(resourceName))
+                var sqlJobTask = new SqlJobTask(resourceName, GetSqlScript(resourceName))
                                      {UndoSql = GetUndoSqlScriptIfFound(allResourceNames, resourceName)};
 
-                Commands.Add(sqlCommand);
+                JobTasks.Add(sqlJobTask);
             }
         }
 
@@ -67,9 +67,9 @@ namespace SqlJobExtension
             return data;
         }
 
-        protected override void EnrichCommandBeforeExecution(CommandBase command)
+        protected override void EnrichJobTaskBeforeExecution(JobTaskBase jobTask)
         {
-            var sqlCmd = command as SqlJobCommand;
+            var sqlCmd = jobTask as SqlJobTask;
             if (sqlCmd != null)
             {
                 SetConnection();
@@ -79,7 +79,7 @@ namespace SqlJobExtension
             }
         }
 
-        private void ApplyParameters(SqlJobCommand sqlCmd)
+        private void ApplyParameters(SqlJobTask sqlCmd)
         {
             var sqlParameters = new Dictionary<string, object>();
             foreach (var parameter in Parameters)

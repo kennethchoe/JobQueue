@@ -11,8 +11,8 @@ namespace UnitTest.JobQueueCore
             var logger = new LoggerMock();
             var job = new Job { LoggerDelegate = logger, ProgressDelegate = this };
 
-            job.Commands.Add(new CommandToSucceed());
-            job.Commands.Add(new CommandToSucceed());
+            job.JobTasks.Add(new JobTaskToSucceed());
+            job.JobTasks.Add(new JobTaskToSucceed());
             job.Execute();
 
             logger.IsLogged(LogActivity.JobCancelled, job.ItemDescription);
