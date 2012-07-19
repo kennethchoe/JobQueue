@@ -8,34 +8,36 @@ namespace FileRepository
     {
         private const string FileExtension = ".queue-item.xml";
         private const string BadFileExtension = ".bad";
-        private readonly DirectoryInfo _queueDirectory;
-        private FileInfo[] _files;
+        private const string ItemIdFile = "_itemid";
+        private readonly string _queueFolder;
+        private string[] _files;
 
         public FileQueueRepository(string queueFolder)
         {
             if (!queueFolder.EndsWith("\\"))
                 queueFolder += "\\";
 
-            _queueDirectory = Directory.CreateDirectory(queueFolder);
+            _queueFolder = queueFolder;
+            Directory.CreateDirectory(queueFolder);
         }
 
         private void RefreshFileList()
         {
-            _files = _queueDirectory.GetFiles("*" + FileExtension);
-            Array.Sort(_files, (fi1, fi2) => Math.Sign((fi1.CreationTime - fi2.CreationTime).Ticks));
+            _files = Directory.GetFiles(_queueFolder, "*" + FileExtension);
+            Array.Sort(_files);
         }
 
         public T Peek()
         {
             RefreshFileList();
-            var fileName = _files[0].FullName;
+            var fileName = _files[0];
             return FindItemByFileName(fileName);
         }
 
         public T FindItemById(string itemId)
         {
             RefreshFileList();
-            string fileName = _queueDirectory.FullName + itemId + FileExtension;
+            string fileName = _queueFolder + itemId + FileExtension;
             return FindItemByFileName(fileName);
         }
 
@@ -78,7 +80,7 @@ namespace FileRepository
         public void MarkPeekItemAsBad()
         {
             RefreshFileList();
-            var fileName = _files[0].FullName;
+            var fileName = _files[0];
 
             new FileInfo(fileName).MoveTo(fileName + BadFileExtension);
         }
@@ -99,11 +101,11 @@ namespace FileRepository
         public string Enqueue(T item)
         {
             string itemId = item.ItemId;
-            
-            if (item.ItemId == null)
-                itemId = Guid.NewGuid().ToString();
 
-            string fileName = _queueDirectory.FullName + itemId + FileExtension;
+            if (item.ItemId == null)
+                itemId = GetNewId().ToString("00000000000000000000");
+
+            string fileName = _queueFolder + itemId + FileExtension;
 
             var ws = new StreamWriter(fileName);
             ws.WriteLine(item.GetType().Assembly);
@@ -114,11 +116,32 @@ namespace FileRepository
             return itemId;
         }
 
+        private long GetNewId()
+        {
+            long newId;
+
+            var idFileInfo = new FileInfo(_queueFolder + ItemIdFile);
+            if (!idFileInfo.Exists)
+                newId = 1;
+            else
+            {
+                var idReader = new StreamReader(_queueFolder + ItemIdFile);
+                newId = int.Parse(idReader.ReadLine()) + 1;
+                idReader.Close();
+            }
+
+            var idFile = new StreamWriter(_queueFolder + ItemIdFile, false);
+            idFile.WriteLine(newId);
+            idFile.Close();
+
+            return newId;
+        }
+
         public T Dequeue()
         {
             var item = Peek();
 
-            var fileName = _files[0].FullName;
+            var fileName = _files[0];
             new FileInfo(fileName).Delete();
 
             return item;
@@ -127,8 +150,8 @@ namespace FileRepository
         public void Clear()
         {
             RefreshFileList();
-            foreach (var fileInfo in _files)
-                new FileInfo(fileInfo.FullName).Delete();
+            foreach (var fileName in _files)
+                new FileInfo(fileName).Delete();
         }
     }
 }
