@@ -50,9 +50,9 @@ namespace UnitTest.JobQueueCore
             return _debugLog.Contains(subject);
         }
 
-        public bool IsLogged(LogActivity logActivity, CommandBase commandBase)
+        public bool IsLogged(LogActivity logActivity, JobTaskBase jobTaskBase)
         {
-            return IsLogged(logActivity, commandBase.CommandNameWithOrder());
+            return IsLogged(logActivity, jobTaskBase.JobTaskNameWithOrder());
         }
 
         private static string BuildMessage(LogActivity logActivity, string subject)

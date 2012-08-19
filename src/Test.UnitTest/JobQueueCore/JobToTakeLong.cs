@@ -6,7 +6,7 @@ namespace UnitTest.JobQueueCore
     {
         public JobToTakeLong()
         {
-            Commands.Add(new CommandToTakeLong());
+            JobTasks.Add(new JobTaskToTakeLong());
         }
     }
 }

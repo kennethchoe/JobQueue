@@ -31,7 +31,7 @@ namespace UnitTest.SqlJobExtensionTest
         }
 
         [Test]
-        public void FailedSqlJobShouldExecuteUndoCommand()
+        public void FailedSqlJobShouldExecuteUndoTask()
         {
             var job = new SqlJobToFail();
             job.SetParameters(DateTime.Parse("1/1/2012"));

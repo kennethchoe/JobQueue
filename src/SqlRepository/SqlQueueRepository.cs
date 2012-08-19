@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace SqlRepository
         {
             var itemRecord = GetFirstItemRecord();
 
-            Connection.Open();
+            EnsureConnectionIsOpen();
             Connection.Execute("update " + _queueTableName + " set IsBad = 1 where id = @id", new { id = itemRecord.Id });
             Connection.Close();
         }
@@ -65,7 +66,7 @@ namespace SqlRepository
 
         private ItemRecord GetFirstItemRecord()
         {
-            Connection.Open();
+            EnsureConnectionIsOpen();
             var itemRecords = Connection.Query<ItemRecord>("select top 1 * from " + _queueTableName + " where IsBad = 0 order by Id");
             Connection.Close();
 
@@ -75,7 +76,7 @@ namespace SqlRepository
 
         private ItemRecord GetItemRecordById(int id)
         {
-            Connection.Open();
+            EnsureConnectionIsOpen();
             var itemRecords = Connection.Query<ItemRecord>("select * from " + _queueTableName + " where Id = @Id", new { Id = id });
             Connection.Close();
 
@@ -85,7 +86,7 @@ namespace SqlRepository
 
         public int Count()
         {
-            Connection.Open();
+            EnsureConnectionIsOpen();
             var counts = Connection.Query<int>("select itemCount = count(*) from " + _queueTableName + " where IsBad = 0");
             Connection.Close();
 
@@ -98,7 +99,7 @@ namespace SqlRepository
             var className = item.GetType().ToString();
             var itemAttributes = item.ItemAttributes;
 
-            Connection.Open();
+            EnsureConnectionIsOpen();
             if (item.ItemId == null)
             {
                 var id = Connection.Query<decimal>(@"
@@ -127,7 +128,7 @@ namespace SqlRepository
         {
             var item = Peek();
 
-            Connection.Open();
+            EnsureConnectionIsOpen();
             Connection.Execute("delete from " + _queueTableName + " where id in (select min(id) from " + _queueTableName + " where IsBad = 0)");
             Connection.Close();
 
@@ -136,10 +137,17 @@ namespace SqlRepository
 
         public void Clear()
         {
-            Connection.Open();
+            EnsureConnectionIsOpen();
             Connection.Execute("delete from " + _queueTableName);
             Connection.Close();
         }
 
+        private void EnsureConnectionIsOpen()
+        {
+            if (Connection.State == ConnectionState.Closed)
+            {
+                Connection.Open();
+            }
+        }
     }
 }

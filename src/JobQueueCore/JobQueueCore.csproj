@@ -41,7 +41,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="CommandBase.cs" />
+    <Compile Include="JobTaskBase.cs" />
     <Compile Include="JobConfiguration.cs" />
     <Compile Include="InMemoryQueueRepository.cs" />
     <Compile Include="IProgressDelegate.cs" />
