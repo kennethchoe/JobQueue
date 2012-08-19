@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleSqlJobLibraryTest", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Log4NetLogger", "Log4NetLogger\Log4NetLogger.csproj", "{DCDF6CA0-6B55-44E6-84D5-458B6E59C776}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLogLogger", "NLogLogger\NLogLogger.csproj", "{9B58474E-A27F-46F2-A887-5916595DC0F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +157,16 @@ Global
 		{DCDF6CA0-6B55-44E6-84D5-458B6E59C776}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DCDF6CA0-6B55-44E6-84D5-458B6E59C776}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DCDF6CA0-6B55-44E6-84D5-458B6E59C776}.Release|x86.ActiveCfg = Release|Any CPU
+		{9B58474E-A27F-46F2-A887-5916595DC0F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B58474E-A27F-46F2-A887-5916595DC0F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B58474E-A27F-46F2-A887-5916595DC0F2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9B58474E-A27F-46F2-A887-5916595DC0F2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9B58474E-A27F-46F2-A887-5916595DC0F2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9B58474E-A27F-46F2-A887-5916595DC0F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B58474E-A27F-46F2-A887-5916595DC0F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B58474E-A27F-46F2-A887-5916595DC0F2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9B58474E-A27F-46F2-A887-5916595DC0F2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9B58474E-A27F-46F2-A887-5916595DC0F2}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
