@@ -14,7 +14,7 @@ namespace NLogLogger
 
         public void LogError(string subject, Exception e)
         {
-            PrepareLogger(subject).ErrorException(LogActivity.ErrorOccurred.ToString(), e);
+            PrepareLogger(subject).Error(e, LogActivity.ErrorOccurred.ToString());
         }
 
         public void LogDebugInfo(string subject, string debugInfo)

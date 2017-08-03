@@ -1,18 +1,13 @@
-﻿using System.ServiceProcess;
-using System.Threading;
-using JobQueueCore;
-using JobQueueManager.App_Start;
+﻿using JobQueueManager.App_Start;
 using JobQueueManager.Controllers.ApiControllers;
-using JobQueueManager.Models;
 using NUnit.Framework;
-using Should;
 
 namespace FullSystemTest.JobQueueManagerTest
 {
     [TestFixture]
     public class WebApiBehaviorWithFileRepository: WebApiBehavior
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitJobQueue()
         {
             JobQueueConfig.ConfigSettings();

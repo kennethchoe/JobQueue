@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.SqlClient;
+using System.IO;
 using FileRepository;
 using JobQueueCore;
 using NUnit.Framework;
@@ -11,20 +11,21 @@ namespace SampleSqlJobLibraryTest
     [TestFixture]
     class SampleSqlJobBehavior
     {
-        private SqlConnection _conn;
         private ILoggerDelegate _logger;
         private JobQueue _jobQueue;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitJobQueue()
         {
             XmlConfigurator.Configure();
 
             JobConfiguration.AppSettings = Settings.Default;
 
-            var repository = new FileQueueRepository<Job>(Environment.CurrentDirectory + "\\queue");
-            var fileErrorRep = new FileQueueRepository<Job>(Environment.CurrentDirectory + "\\queue-error");
-            var fileExecutedRep = new FileQueueRepository<Job>(Environment.CurrentDirectory + "\\queue-executed");
+            var path = Path.GetTempPath();
+
+            var repository = new FileQueueRepository<Job>(path + "\\queue");
+            var fileErrorRep = new FileQueueRepository<Job>(path + "\\queue-error");
+            var fileExecutedRep = new FileQueueRepository<Job>(path + "\\queue-executed");
             _logger = new Log4NetLogger.Logger();
 
             _jobQueue = new JobQueue { Repository = repository, ErroredJobs = fileErrorRep, ExecutedJobs = fileExecutedRep, LoggerDelegate = _logger };

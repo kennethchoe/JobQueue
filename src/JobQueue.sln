@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobQueueCore", "JobQueueCore\JobQueueCore.csproj", "{1B7BDAD6-DE34-497A-ABC1-D26339F15CE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlJobExtension", "SqlJobExtension\SqlJobExtension.csproj", "{BDEC487C-159B-4D4B-89AD-A4B06B308728}"

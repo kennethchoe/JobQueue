@@ -1,1 +1,0 @@
-powershell.exe Set-ExecutionPolicy RemoteSigned; ./uninstall.ps1 & pause

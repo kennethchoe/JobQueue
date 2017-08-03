@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.IO;
 using FileRepository;
 using IntegrationTest.Properties;
 using JobQueueCore;
@@ -14,9 +14,11 @@ namespace IntegrationTest.RepositoryTest
         {
             JobConfiguration.AppSettings = Settings.Default;
 
-            Repository = new FileQueueRepository<Job>(Environment.CurrentDirectory + "\\queue");
-            var fileErrorRep = new FileQueueRepository<Job>(Environment.CurrentDirectory + "\\queue-error");
-            var fileExecutedRep = new FileQueueRepository<Job>(Environment.CurrentDirectory + "\\queue-executed");
+            var path = Path.GetTempPath();
+
+            Repository = new FileQueueRepository<Job>(path + "\\queue");
+            var fileErrorRep = new FileQueueRepository<Job>(path + "\\queue-error");
+            var fileExecutedRep = new FileQueueRepository<Job>(path + "\\queue-executed");
             
             JobQueue = new JobQueue { Repository = Repository, ErroredJobs = fileErrorRep, ExecutedJobs = fileExecutedRep, LoggerDelegate = Logger};
             JobQueue.Clear();
