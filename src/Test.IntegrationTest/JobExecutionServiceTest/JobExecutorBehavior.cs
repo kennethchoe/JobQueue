@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using FileRepository;
 using JobQueueCore;
 using NUnit.Framework;
@@ -16,7 +17,8 @@ namespace IntegrationTest.JobExecutionServiceTest
         [SetUp]
         public void InitQueue()
         {
-            var fileRep = new FileQueueRepository<Job>(Environment.CurrentDirectory + "\\queue");
+            var path = Path.GetTempPath();
+            var fileRep = new FileQueueRepository<Job>(path + "\\queue");
 
             _fileQueue = new JobQueue { Repository = fileRep };
 
