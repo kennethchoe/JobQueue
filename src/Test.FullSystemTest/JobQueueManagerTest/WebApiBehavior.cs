@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ServiceProcess;
+﻿using System.ServiceProcess;
 using System.Threading;
 using JobQueueCore;
-using JobQueueManager.App_Start;
 using JobQueueManager.Controllers.ApiControllers;
 using JobQueueManager.Models;
 using NUnit.Framework;

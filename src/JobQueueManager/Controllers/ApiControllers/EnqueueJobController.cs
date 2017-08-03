@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using JobQueueCore;
-using JobQueueManager.App_Start;
 using Newtonsoft.Json;
 
 namespace JobQueueManager.Controllers.ApiControllers

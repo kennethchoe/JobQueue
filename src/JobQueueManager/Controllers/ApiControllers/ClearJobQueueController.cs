@@ -1,5 +1,4 @@
 ﻿using System.Web.Http;
-using JobQueueManager.App_Start;
 
 namespace JobQueueManager.Controllers.ApiControllers
 {

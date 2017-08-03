@@ -2,7 +2,6 @@
 using System.Data.SqlClient;
 using JobQueueCore;
 using NUnit.Framework;
-using SampleSqlJobLibrary;
 using SampleSqlJobLibrary.Jobs;
 using Should;
 using UnitTest.Properties;

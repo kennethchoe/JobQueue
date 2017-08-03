@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ServiceProcess;
 using System.Web.Http;
-using JobQueueManager.App_Start;
 
 namespace JobQueueManager.Controllers.ApiControllers
 {
@@ -17,7 +16,7 @@ namespace JobQueueManager.Controllers.ApiControllers
             if (repositoryType == null)
                 serviceController.Start();
             else
-                serviceController.Start(new string[] { repositoryType });
+                serviceController.Start(new [] { repositoryType });
 
             serviceController.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(5));
 

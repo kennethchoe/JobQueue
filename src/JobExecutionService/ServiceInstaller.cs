@@ -7,20 +7,17 @@ namespace JobExecutionService
     [RunInstaller(true)]
     public class ServiceInstaller : Installer
     {
-        private readonly ServiceProcessInstaller _processInstaller;
-        private readonly System.ServiceProcess.ServiceInstaller _serviceInstaller;
-
         public ServiceInstaller()
         {
-            _processInstaller = new ServiceProcessInstaller();
-            _serviceInstaller = new System.ServiceProcess.ServiceInstaller();
+            var processInstaller = new ServiceProcessInstaller();
+            var serviceInstaller = new System.ServiceProcess.ServiceInstaller();
 
-            _processInstaller.Account = ServiceAccount.LocalSystem;
-            _serviceInstaller.StartType = ServiceStartMode.Manual;
-            _serviceInstaller.ServiceName = "JobExecutionService";
+            processInstaller.Account = ServiceAccount.LocalSystem;
+            serviceInstaller.StartType = ServiceStartMode.Manual;
+            serviceInstaller.ServiceName = "JobExecutionService";
 
-            Installers.Add(_serviceInstaller);
-            Installers.Add(_processInstaller);
+            Installers.Add(serviceInstaller);
+            Installers.Add(processInstaller);
         }
     }
 }

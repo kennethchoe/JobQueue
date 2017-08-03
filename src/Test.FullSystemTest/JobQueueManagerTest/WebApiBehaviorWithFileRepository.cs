@@ -1,4 +1,4 @@
-﻿using JobQueueManager.App_Start;
+﻿using JobQueueManager;
 using JobQueueManager.Controllers.ApiControllers;
 using NUnit.Framework;
 

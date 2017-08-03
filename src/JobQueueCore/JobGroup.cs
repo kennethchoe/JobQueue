@@ -29,7 +29,7 @@ namespace JobQueueCore
 
         public void LogJobGroup(ILoggerDelegate logger, string note)
         {
-            logger.Log(LogActivity.EnqueueJobGroup, this.ToString() + " " + note + " " + JsonConvert.SerializeObject(Parameters));
+            logger.Log(LogActivity.EnqueueJobGroup, this + " " + note + " " + JsonConvert.SerializeObject(Parameters));
         }
     }
 }

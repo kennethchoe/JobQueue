@@ -2,7 +2,6 @@
 using JobQueueCore;
 using Log4NetLogger;
 using NUnit.Framework;
-using SampleSqlJobLibrary;
 using SampleSqlJobLibrary.Jobs;
 using Should;
 
@@ -14,7 +13,7 @@ namespace IntegrationTest.RepositoryTest
         protected IQueueRepository<Job> Repository;
         protected ILoggerDelegate Logger;
 
-        public RepositoryBehavior()
+        protected RepositoryBehavior()
         {
             Logger = new Logger();
         }

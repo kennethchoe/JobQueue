@@ -1,6 +1,5 @@
 ﻿using System.ServiceProcess;
 using System.Web.Http;
-using JobQueueManager.App_Start;
 using JobQueueManager.Models;
 
 namespace JobQueueManager.Controllers.ApiControllers

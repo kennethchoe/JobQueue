@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text.RegularExpressions;
 using JobQueueCore;
 
 namespace SqlJobExtension
@@ -67,6 +66,7 @@ namespace SqlJobExtension
                 }
                 catch
                 {
+                    // ignored
                 }
             }
 

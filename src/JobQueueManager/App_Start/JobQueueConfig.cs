@@ -1,7 +1,7 @@
 ﻿using JobQueueCore;
 using JobQueueManager.Properties;
 
-namespace JobQueueManager.App_Start
+namespace JobQueueManager
 {
     public static class JobQueueConfig
     {

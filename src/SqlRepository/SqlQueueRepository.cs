@@ -118,7 +118,7 @@ namespace SqlRepository
 
                 Connection.Execute("SET IDENTITY_INSERT " + _queueTableName + " OFF");
               
-            };
+            }
 
             Connection.Close();
             return item.ItemId;

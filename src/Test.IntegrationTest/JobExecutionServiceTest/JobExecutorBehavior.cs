@@ -3,7 +3,6 @@ using System.IO;
 using FileRepository;
 using JobQueueCore;
 using NUnit.Framework;
-using SampleSqlJobLibrary;
 using SampleSqlJobLibrary.Jobs;
 using Should;
 
